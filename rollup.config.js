@@ -5,6 +5,7 @@ import commonjs from "rollup-plugin-commonjs";
 import replace from "@rollup/plugin-replace";
 import license from "rollup-plugin-license";
 import pkg from "./package.json";
+import analyzer from "rollup-plugin-analyzer";
 
 function replaceVersion() {
   return replace({
@@ -94,7 +95,8 @@ const es = {
     resolve(),
     RollupPluginPreprocess({ context: { MODULE_FORMAT: "es" } }),
     replaceVersion(),
-    licenseBanner()
+    licenseBanner(),
+    analyzer()
   ]
 };
 const node = {
