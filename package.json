@@ -1,7 +1,7 @@
 {
-  "name": "jspdf",
+  "name": "@visualbi/jspdf",
   "version": "2.3.1",
-  "homepage": "https://github.com/mrrio/jspdf",
+  "homepage": "https://github.com/visualbis/jsPDF",
   "description": "PDF Document creation from JavaScript",
   "main": "dist/jspdf.node.min.js",
   "module": "dist/jspdf.es.min.js",
@@ -20,7 +20,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MrRio/jsPDF.git"
+    "url": "https://github.com/visualbis/jsPDF/"
   },
   "dependencies": {
     "atob": "^2.1.2",
@@ -79,6 +79,7 @@
     "regenerator-runtime": "^0.13.5",
     "requirejs": "^2.3.6",
     "rollup": "^2.18.2",
+    "rollup-plugin-analyzer": "^4.0.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-license": "^2.1.0",
     "rollup-plugin-node-resolve": "5.2.0",
@@ -90,6 +91,7 @@
   "scripts": {
     "start": "ws",
     "build": "rollup --config rollup.config.js",
+    "publishPackage": "npm publish --tag jspdf-lite",
     "version": "yarpm run build && yarpm run generate-docs && git add -A dist docs",
     "pretest": "yarpm run build",
     "test": "yarpm run test-node && yarpm run test-saucelabs",

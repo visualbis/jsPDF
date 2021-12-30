@@ -392,4 +392,17 @@ import { jsPDF } from "../jspdf.js";
 
     return output;
   };
+
+  /**
+   * @name getTextWidth
+   * @function
+   * @param {string} text
+   * @returns {number} txtWidth
+   */
+  API.getTextWidth = function(text) {
+    var fontSize = this.internal.getFontSize();
+    var txtWidth =
+      (this.getStringUnitWidth(text) * fontSize) / this.internal.scaleFactor;
+    return txtWidth;
+  };
 })(jsPDF.API);
