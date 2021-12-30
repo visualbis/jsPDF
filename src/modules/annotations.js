@@ -373,20 +373,7 @@ import { jsPDF } from "../jspdf.js";
     this.link(x, y - height, width, height, options);
     return width;
   };
-
-  //TODO move into external library
-  /**
-   * @name getTextWidth
-   * @function
-   * @param {string} text
-   * @returns {number} txtWidth
-   */
-  jsPDFAPI.getTextWidth = function(text) {
-    var fontSize = this.internal.getFontSize();
-    var txtWidth =
-      (this.getStringUnitWidth(text) * fontSize) / this.internal.scaleFactor;
-    return txtWidth;
-  };
+  
 
   return this;
 })(jsPDF.API);
