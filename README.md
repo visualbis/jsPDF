@@ -8,7 +8,7 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/MrRio/jsPDF.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/MrRio/jsPDF/context:javascript)
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
 
-**A library to generate PDFs in JavaScript.**
+**A library to generate  PDFs in JavaScript.**
 
 You can [catch me on twitter](http://twitter.com/MrRio): [@MrRio](http://twitter.com/MrRio) or head over to [my company's website](http://parall.ax) for consultancy.
 
