@@ -4842,7 +4842,7 @@ function jsPDF(options) {
       fontStyle = combineFontStyleAndFontWeight(fontStyle, fontWeight);
     }
     activeFontKey = getFont(fontName, fontStyle, {
-      disableWarning: false
+      disableWarning: true
     });
     return this;
   };
