@@ -2813,7 +2813,7 @@ function jsPDF(options) {
   var getFont = function(fontName, fontStyle, options) {
     var key = undefined,
       fontNameLowerCase;
-    options = options || {};
+    options = options || {disableWarning: true};
 
     fontName =
       fontName !== undefined ? fontName : fonts[activeFontKey].fontName;
@@ -4842,7 +4842,7 @@ function jsPDF(options) {
       fontStyle = combineFontStyleAndFontWeight(fontStyle, fontWeight);
     }
     activeFontKey = getFont(fontName, fontStyle, {
-      disableWarning: false
+      disableWarning: true
     });
     return this;
   };
