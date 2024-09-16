@@ -9,7 +9,7 @@ import "./modules/annotations.js";
 import "./modules/canvas.js";
 import "./modules/cell.js";
 import "./modules/context2d.js";
-// import "./modules/filters.js";
+import "./modules/filters.js";
 // import "./modules/fileloading.js";
 // import "./modules/html.js";
 // import "./modules/javascript.js";
