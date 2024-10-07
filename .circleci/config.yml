@@ -4,7 +4,7 @@ defaults: &defaults
 executors:
   node14:
     docker:
-        - image: circleci/node:14-browsers
+        - image: 'cimg/node:14.20.1'
 commands:
     npmbuild: 
         description: "NPM install any visual editor based on path" 
