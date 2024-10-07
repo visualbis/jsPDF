@@ -1,6 +1,6 @@
 {
   "name": "@lumel/jspdf",
-  "version": "2.3.1-5",
+  "version": "2.3.1-6",
   "homepage": "https://github.com/visualbis/jspdf",
   "description": "PDF Document creation from JavaScript",
   "main": "dist/jspdf.node.min.js",
