@@ -53,9 +53,7 @@
 	FitBV
  */
 
-import { jsPDF } from "../jspdf.js";
-
-(function(jsPDFAPI) {
+function annotations(jsPDFAPI) {
   "use strict";
 
   var notEmpty = function(obj) {
@@ -66,7 +64,7 @@ import { jsPDF } from "../jspdf.js";
     }
   };
 
-  jsPDF.API.events.push([
+  jsPDFAPI.events.push([
     "addPage",
     function(addPageData) {
       var pageInfo = this.internal.getPageInfo(addPageData.pageNumber);
@@ -373,7 +371,8 @@ import { jsPDF } from "../jspdf.js";
     this.link(x, y - height, width, height, options);
     return width;
   };
-  
 
   return this;
-})(jsPDF.API);
+}
+
+export { annotations };

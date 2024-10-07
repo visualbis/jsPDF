@@ -5,15 +5,13 @@
  * http://opensource.org/licenses/mit-license
  */
 
-import { jsPDF } from "../jspdf.js";
-
 /**
  * jsPDF jpeg Support PlugIn
  *
  * @name jpeg_support
  * @module
  */
-(function(jsPDFAPI) {
+function jpeg_support(jsPDFAPI) {
   "use strict";
 
   /**
@@ -108,4 +106,6 @@ import { jsPDF } from "../jspdf.js";
     }
     return result;
   };
-})(jsPDF.API);
+}
+
+export { jpeg_support };

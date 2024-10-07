@@ -32,10 +32,9 @@
  * @module
  */
 
-import { jsPDF } from "../jspdf.js";
 import { atob, btoa } from "../libs/AtobBtoa.js";
 
-(function(jsPDFAPI) {
+function addImage(jsPDFAPI) {
   "use strict";
 
   var namespace = "addImage_";
@@ -987,4 +986,6 @@ import { atob, btoa } from "../libs/AtobBtoa.js";
 
     return image;
   };
-})(jsPDF.API);
+}
+
+export { addImage };

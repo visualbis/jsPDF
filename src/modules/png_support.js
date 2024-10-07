@@ -24,7 +24,6 @@
  * ====================================================================
  */
 
-import { jsPDF } from "../jspdf.js";
 import { zlibSync } from "../libs/fflate.js";
 import { PNG } from "../libs/png.js";
 
@@ -33,7 +32,7 @@ import { PNG } from "../libs/png.js";
  * @name png_support
  * @module
  */
-(function(jsPDFAPI) {
+function png_support(jsPDFAPI) {
   "use strict";
 
   /*
@@ -489,4 +488,6 @@ import { PNG } from "../libs/png.js";
       };
     }
   };
-})(jsPDF.API);
+}
+
+export {png_support}

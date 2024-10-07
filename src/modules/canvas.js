@@ -6,7 +6,6 @@
  * http://opensource.org/licenses/mit-license
  */
 
-import { jsPDF } from "../jspdf.js";
 
 /**
  * jsPDF Canvas PlugIn
@@ -16,7 +15,7 @@ import { jsPDF } from "../jspdf.js";
  * @name canvas
  * @module
  */
-(function(jsPDFAPI) {
+function canvas(jsPDFAPI) {
   "use strict";
 
   /**
@@ -146,4 +145,6 @@ import { jsPDF } from "../jspdf.js";
   ]);
 
   return this;
-})(jsPDF.API);
+}
+
+export {canvas}

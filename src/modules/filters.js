@@ -7,10 +7,9 @@
  * http://opensource.org/licenses/mit-license
  */
 
-import { jsPDF } from "../jspdf.js";
 import { zlibSync } from "../libs/fflate.js";
 
-(function(jsPDFAPI) {
+function filters(jsPDFAPI) {
   "use strict";
 
   var ASCII85Encode = function(a) {
@@ -193,4 +192,6 @@ import { zlibSync } from "../libs/fflate.js";
 
     return { data: data, reverseChain: reverseChain.reverse().join(" ") };
   };
-})(jsPDF.API);
+}
+
+export {filters}

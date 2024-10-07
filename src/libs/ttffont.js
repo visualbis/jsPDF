@@ -9,164 +9,165 @@
  * jsPDF extension API Design *
  * ****************************/
 
-import { jsPDF } from "../jspdf.js";
-
-jsPDF.API.TTFFont = (function() {
-  /************************************************************************/
-  /* function : open                                                       */
-  /* comment : Decode the encoded ttf content and create a TTFFont object. */
-  /************************************************************************/
-  TTFFont.open = function(file) {
-    return new TTFFont(file);
-  };
-  /***************************************************************/
-  /* function : TTFFont gernerator                               */
-  /* comment : Decode TTF contents are parsed, Data,             */
-  /* Subset object is created, and registerTTF function is called.*/
-  /***************************************************************/
-  function TTFFont(rawData) {
-    var data;
-    this.rawData = rawData;
-    data = this.contents = new Data(rawData);
-    this.contents.pos = 4;
-    if (data.readString(4) === "ttcf") {
-      throw new Error("TTCF not supported.");
-    } else {
-      data.pos = 0;
-      this.parse();
-      this.subset = new Subset(this);
-      this.registerTTF();
-    }
-  }
-  /********************************************************/
-  /* function : parse                                     */
-  /* comment : TTF Parses the file contents by each table.*/
-  /********************************************************/
-  TTFFont.prototype.parse = function() {
-    this.directory = new Directory(this.contents);
-    this.head = new HeadTable(this);
-    this.name = new NameTable(this);
-    this.cmap = new CmapTable(this);
-    this.toUnicode = {};
-    this.hhea = new HheaTable(this);
-    this.maxp = new MaxpTable(this);
-    this.hmtx = new HmtxTable(this);
-    this.post = new PostTable(this);
-    this.os2 = new OS2Table(this);
-    this.loca = new LocaTable(this);
-    this.glyf = new GlyfTable(this);
-    this.ascender =
-      (this.os2.exists && this.os2.ascender) || this.hhea.ascender;
-    this.decender =
-      (this.os2.exists && this.os2.decender) || this.hhea.decender;
-    this.lineGap = (this.os2.exists && this.os2.lineGap) || this.hhea.lineGap;
-    return (this.bbox = [
-      this.head.xMin,
-      this.head.yMin,
-      this.head.xMax,
-      this.head.yMax
-    ]);
-  };
-  /***************************************************************/
-  /* function : registerTTF                                      */
-  /* comment : Get the value to assign pdf font descriptors.     */
-  /***************************************************************/
-  TTFFont.prototype.registerTTF = function() {
-    var e, hi, low, raw, _ref;
-    this.scaleFactor = 1000.0 / this.head.unitsPerEm;
-    this.bbox = function() {
-      var _i, _len, _ref, _results;
-      _ref = this.bbox;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        e = _ref[_i];
-        _results.push(Math.round(e * this.scaleFactor));
+function ttffont(jsPdfAPI) {
+  jsPdfAPI.TTFFont = (function() {
+    /************************************************************************/
+    /* function : open                                                       */
+    /* comment : Decode the encoded ttf content and create a TTFFont object. */
+    /************************************************************************/
+    TTFFont.open = function(file) {
+      return new TTFFont(file);
+    };
+    /***************************************************************/
+    /* function : TTFFont gernerator                               */
+    /* comment : Decode TTF contents are parsed, Data,             */
+    /* Subset object is created, and registerTTF function is called.*/
+    /***************************************************************/
+    function TTFFont(rawData) {
+      var data;
+      this.rawData = rawData;
+      data = this.contents = new Data(rawData);
+      this.contents.pos = 4;
+      if (data.readString(4) === "ttcf") {
+        throw new Error("TTCF not supported.");
+      } else {
+        data.pos = 0;
+        this.parse();
+        this.subset = new Subset(this);
+        this.registerTTF();
       }
-      return _results;
-    }.call(this);
-    this.stemV = 0;
-    if (this.post.exists) {
-      raw = this.post.italic_angle;
-      hi = raw >> 16;
-      low = raw & 0xff;
-      if ((hi & 0x8000) !== 0) {
-        hi = -((hi ^ 0xffff) + 1);
+    }
+    /********************************************************/
+    /* function : parse                                     */
+    /* comment : TTF Parses the file contents by each table.*/
+    /********************************************************/
+    TTFFont.prototype.parse = function() {
+      this.directory = new Directory(this.contents);
+      this.head = new HeadTable(this);
+      this.name = new NameTable(this);
+      this.cmap = new CmapTable(this);
+      this.toUnicode = {};
+      this.hhea = new HheaTable(this);
+      this.maxp = new MaxpTable(this);
+      this.hmtx = new HmtxTable(this);
+      this.post = new PostTable(this);
+      this.os2 = new OS2Table(this);
+      this.loca = new LocaTable(this);
+      this.glyf = new GlyfTable(this);
+      this.ascender =
+        (this.os2.exists && this.os2.ascender) || this.hhea.ascender;
+      this.decender =
+        (this.os2.exists && this.os2.decender) || this.hhea.decender;
+      this.lineGap = (this.os2.exists && this.os2.lineGap) || this.hhea.lineGap;
+      return (this.bbox = [
+        this.head.xMin,
+        this.head.yMin,
+        this.head.xMax,
+        this.head.yMax
+      ]);
+    };
+    /***************************************************************/
+    /* function : registerTTF                                      */
+    /* comment : Get the value to assign pdf font descriptors.     */
+    /***************************************************************/
+    TTFFont.prototype.registerTTF = function() {
+      var e, hi, low, raw, _ref;
+      this.scaleFactor = 1000.0 / this.head.unitsPerEm;
+      this.bbox = function() {
+        var _i, _len, _ref, _results;
+        _ref = this.bbox;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          e = _ref[_i];
+          _results.push(Math.round(e * this.scaleFactor));
+        }
+        return _results;
+      }.call(this);
+      this.stemV = 0;
+      if (this.post.exists) {
+        raw = this.post.italic_angle;
+        hi = raw >> 16;
+        low = raw & 0xff;
+        if ((hi & 0x8000) !== 0) {
+          hi = -((hi ^ 0xffff) + 1);
+        }
+        this.italicAngle = +("" + hi + "." + low);
+      } else {
+        this.italicAngle = 0;
       }
-      this.italicAngle = +("" + hi + "." + low);
-    } else {
-      this.italicAngle = 0;
-    }
-    this.ascender = Math.round(this.ascender * this.scaleFactor);
-    this.decender = Math.round(this.decender * this.scaleFactor);
-    this.lineGap = Math.round(this.lineGap * this.scaleFactor);
-    this.capHeight = (this.os2.exists && this.os2.capHeight) || this.ascender;
-    this.xHeight = (this.os2.exists && this.os2.xHeight) || 0;
-    this.familyClass = ((this.os2.exists && this.os2.familyClass) || 0) >> 8;
-    this.isSerif =
-      (_ref = this.familyClass) === 1 ||
-      _ref === 2 ||
-      _ref === 3 ||
-      _ref === 4 ||
-      _ref === 5 ||
-      _ref === 7;
-    this.isScript = this.familyClass === 10;
-    this.flags = 0;
-    if (this.post.isFixedPitch) {
-      this.flags |= 1 << 0;
-    }
-    if (this.isSerif) {
-      this.flags |= 1 << 1;
-    }
-    if (this.isScript) {
-      this.flags |= 1 << 3;
-    }
-    if (this.italicAngle !== 0) {
-      this.flags |= 1 << 6;
-    }
-    this.flags |= 1 << 5;
-    if (!this.cmap.unicode) {
-      throw new Error("No unicode cmap for font");
-    }
-  };
-  TTFFont.prototype.characterToGlyph = function(character) {
-    var _ref;
-    return (
-      ((_ref = this.cmap.unicode) != null ? _ref.codeMap[character] : void 0) ||
-      0
-    );
-  };
-  TTFFont.prototype.widthOfGlyph = function(glyph) {
-    var scale;
-    scale = 1000.0 / this.head.unitsPerEm;
-    return this.hmtx.forGlyph(glyph).advance * scale;
-  };
-  TTFFont.prototype.widthOfString = function(string, size, charSpace) {
-    var charCode, i, scale, width, _ref;
-    string = "" + string;
-    width = 0;
-    for (
-      i = 0, _ref = string.length;
-      0 <= _ref ? i < _ref : i > _ref;
-      i = 0 <= _ref ? ++i : --i
-    ) {
-      charCode = string.charCodeAt(i);
-      width +=
-        this.widthOfGlyph(this.characterToGlyph(charCode)) +
-          charSpace * (1000 / size) || 0;
-    }
-    scale = size / 1000;
-    return width * scale;
-  };
-  TTFFont.prototype.lineHeight = function(size, includeGap) {
-    var gap;
-    if (includeGap == null) {
-      includeGap = false;
-    }
-    gap = includeGap ? this.lineGap : 0;
-    return ((this.ascender + gap - this.decender) / 1000) * size;
-  };
-  return TTFFont;
-})();
+      this.ascender = Math.round(this.ascender * this.scaleFactor);
+      this.decender = Math.round(this.decender * this.scaleFactor);
+      this.lineGap = Math.round(this.lineGap * this.scaleFactor);
+      this.capHeight = (this.os2.exists && this.os2.capHeight) || this.ascender;
+      this.xHeight = (this.os2.exists && this.os2.xHeight) || 0;
+      this.familyClass = ((this.os2.exists && this.os2.familyClass) || 0) >> 8;
+      this.isSerif =
+        (_ref = this.familyClass) === 1 ||
+        _ref === 2 ||
+        _ref === 3 ||
+        _ref === 4 ||
+        _ref === 5 ||
+        _ref === 7;
+      this.isScript = this.familyClass === 10;
+      this.flags = 0;
+      if (this.post.isFixedPitch) {
+        this.flags |= 1 << 0;
+      }
+      if (this.isSerif) {
+        this.flags |= 1 << 1;
+      }
+      if (this.isScript) {
+        this.flags |= 1 << 3;
+      }
+      if (this.italicAngle !== 0) {
+        this.flags |= 1 << 6;
+      }
+      this.flags |= 1 << 5;
+      if (!this.cmap.unicode) {
+        throw new Error("No unicode cmap for font");
+      }
+    };
+    TTFFont.prototype.characterToGlyph = function(character) {
+      var _ref;
+      return (
+        ((_ref = this.cmap.unicode) != null
+          ? _ref.codeMap[character]
+          : void 0) || 0
+      );
+    };
+    TTFFont.prototype.widthOfGlyph = function(glyph) {
+      var scale;
+      scale = 1000.0 / this.head.unitsPerEm;
+      return this.hmtx.forGlyph(glyph).advance * scale;
+    };
+    TTFFont.prototype.widthOfString = function(string, size, charSpace) {
+      var charCode, i, scale, width, _ref;
+      string = "" + string;
+      width = 0;
+      for (
+        i = 0, _ref = string.length;
+        0 <= _ref ? i < _ref : i > _ref;
+        i = 0 <= _ref ? ++i : --i
+      ) {
+        charCode = string.charCodeAt(i);
+        width +=
+          this.widthOfGlyph(this.characterToGlyph(charCode)) +
+            charSpace * (1000 / size) || 0;
+      }
+      scale = size / 1000;
+      return width * scale;
+    };
+    TTFFont.prototype.lineHeight = function(size, includeGap) {
+      var gap;
+      if (includeGap == null) {
+        includeGap = false;
+      }
+      gap = includeGap ? this.lineGap : 0;
+      return ((this.ascender + gap - this.decender) / 1000) * size;
+    };
+    return TTFFont;
+  })();
+}
 
 /************************************************************************************************/
 /* function : Data                                                                              */
@@ -1894,56 +1895,60 @@ var Subset = (function() {
   return Subset;
 })();
 
-jsPDF.API.PDFObject = (function() {
-  var pad;
+function pdfObject(jsPdfAPI) {
+  jsPdfAPI.PDFObject = (function() {
+    var pad;
 
-  function PDFObject() {}
-  pad = function(str, length) {
-    return (Array(length + 1).join("0") + str).slice(-length);
-  };
-  /*****************************************************************************/
-  /* function : convert                                                        */
-  /* comment :Converts pdf tag's / FontBBox and array values in / W to strings */
-  /*****************************************************************************/
-  PDFObject.convert = function(object) {
-    var e, items, key, out, val;
-    if (Array.isArray(object)) {
-      items = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = object.length; _i < _len; _i++) {
-          e = object[_i];
-          _results.push(PDFObject.convert(e));
+    function PDFObject() {}
+    pad = function(str, length) {
+      return (Array(length + 1).join("0") + str).slice(-length);
+    };
+    /*****************************************************************************/
+    /* function : convert                                                        */
+    /* comment :Converts pdf tag's / FontBBox and array values in / W to strings */
+    /*****************************************************************************/
+    PDFObject.convert = function(object) {
+      var e, items, key, out, val;
+      if (Array.isArray(object)) {
+        items = (function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = object.length; _i < _len; _i++) {
+            e = object[_i];
+            _results.push(PDFObject.convert(e));
+          }
+          return _results;
+        })().join(" ");
+        return "[" + items + "]";
+      } else if (typeof object === "string") {
+        return "/" + object;
+      } else if (object != null ? object.isString : void 0) {
+        return "(" + object + ")";
+      } else if (object instanceof Date) {
+        return (
+          "(D:" +
+          pad(object.getUTCFullYear(), 4) +
+          pad(object.getUTCMonth(), 2) +
+          pad(object.getUTCDate(), 2) +
+          pad(object.getUTCHours(), 2) +
+          pad(object.getUTCMinutes(), 2) +
+          pad(object.getUTCSeconds(), 2) +
+          "Z)"
+        );
+      } else if ({}.toString.call(object) === "[object Object]") {
+        out = ["<<"];
+        for (key in object) {
+          val = object[key];
+          out.push("/" + key + " " + PDFObject.convert(val));
         }
-        return _results;
-      })().join(" ");
-      return "[" + items + "]";
-    } else if (typeof object === "string") {
-      return "/" + object;
-    } else if (object != null ? object.isString : void 0) {
-      return "(" + object + ")";
-    } else if (object instanceof Date) {
-      return (
-        "(D:" +
-        pad(object.getUTCFullYear(), 4) +
-        pad(object.getUTCMonth(), 2) +
-        pad(object.getUTCDate(), 2) +
-        pad(object.getUTCHours(), 2) +
-        pad(object.getUTCMinutes(), 2) +
-        pad(object.getUTCSeconds(), 2) +
-        "Z)"
-      );
-    } else if ({}.toString.call(object) === "[object Object]") {
-      out = ["<<"];
-      for (key in object) {
-        val = object[key];
-        out.push("/" + key + " " + PDFObject.convert(val));
+        out.push(">>");
+        return out.join("\n");
+      } else {
+        return "" + object;
       }
-      out.push(">>");
-      return out.join("\n");
-    } else {
-      return "" + object;
-    }
-  };
-  return PDFObject;
-})();
+    };
+    return PDFObject;
+  })();
+}
+
+export { ttffont, pdfObject };

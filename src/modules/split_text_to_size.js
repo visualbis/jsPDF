@@ -24,7 +24,6 @@
  * ====================================================================
  */
 
-import { jsPDF } from "../jspdf.js";
 
 /**
  * jsPDF split_text_to_size plugin
@@ -32,7 +31,7 @@ import { jsPDF } from "../jspdf.js";
  * @name split_text_to_size
  * @module
  */
-(function(API) {
+function split_text_to_size(jsPDFAPI) {
   "use strict";
   /**
    * Returns an array of length matching length of the 'word' string, with each
@@ -44,7 +43,7 @@ import { jsPDF } from "../jspdf.js";
    * @param {Object} options
    * @returns {Array}
    */
-  var getCharWidthsArray = (API.getCharWidthsArray = function(text, options) {
+  var getCharWidthsArray = (jsPDFAPI.getCharWidthsArray = function(text, options) {
     options = options || {};
 
     var activeFont = options.font || this.internal.getFont();
@@ -117,7 +116,7 @@ import { jsPDF } from "../jspdf.js";
    * @param {string} options
    * @returns {number} result
    */
-  var getStringUnitWidth = (API.getStringUnitWidth = function(text, options) {
+  var getStringUnitWidth = (jsPDFAPI.getStringUnitWidth = function(text, options) {
     options = options || {};
 
     var fontSize = options.fontSize || this.internal.getFontSize();
@@ -125,8 +124,8 @@ import { jsPDF } from "../jspdf.js";
     var charSpace = options.charSpace || this.internal.getCharSpace();
     var result = 0;
 
-    if (API.processArabic) {
-      text = API.processArabic(text);
+    if (jsPDFAPI.processArabic) {
+      text = jsPDFAPI.processArabic(text);
     }
 
     if (typeof font.metadata.widthOfString === "function") {
@@ -313,7 +312,7 @@ import { jsPDF } from "../jspdf.js";
    * @param {Object} options Optional flags needed for chopper to do the right thing.
    * @returns {Array} array Array with strings chopped to size.
    */
-  API.splitTextToSize = function(text, maxlen, options) {
+  jsPDFAPI.splitTextToSize = function(text, maxlen, options) {
     "use strict";
 
     options = options || {};
@@ -399,10 +398,12 @@ import { jsPDF } from "../jspdf.js";
    * @param {string} text
    * @returns {number} txtWidth
    */
-  API.getTextWidth = function(text) {
+  jsPDFAPI.getTextWidth = function(text) {
     var fontSize = this.internal.getFontSize();
     var txtWidth =
       (this.getStringUnitWidth(text) * fontSize) / this.internal.scaleFactor;
     return txtWidth;
   };
-})(jsPDF.API);
+}
+
+export { split_text_to_size };
