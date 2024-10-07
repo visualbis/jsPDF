@@ -23,7 +23,6 @@
  * ====================================================================
  */
 
-import { jsPDF } from "../jspdf.js";
 
 /**
  * This file adds the standard font metrics to jsPDF.
@@ -45,9 +44,9 @@ import { jsPDF } from "../jspdf.js";
  * @module
  */
 
-(function(API) {
+function standard_fonts_metrics(jsPDFAPI) {
   "use strict";
-  API.__fontmetrics__ = API.__fontmetrics__ || {};
+  jsPDFAPI.__fontmetrics__ = jsPDFAPI.__fontmetrics__ || {};
 
   var decoded = "0123456789abcdef",
     encoded = "klmnopqrstuvwxyz",
@@ -63,7 +62,7 @@ import { jsPDF } from "../jspdf.js";
     return "0x" + parseInt(value, 10).toString(16);
   };
 
-  var compress = (API.__fontmetrics__.compress = function(data) {
+  var compress = (jsPDFAPI.__fontmetrics__.compress = function(data) {
     var vals = ["{"];
     var value, keystring, valuestring, numberprefix;
 
@@ -114,7 +113,7 @@ import { jsPDF } from "../jspdf.js";
    * @param
    * @returns {Type}
    */
-  var uncompress = (API.__fontmetrics__.uncompress = function(data) {
+  var uncompress = (jsPDFAPI.__fontmetrics__.uncompress = function(data) {
     if (typeof data !== "string") {
       throw new Error("Invalid argument passed to uncompress.");
     }
@@ -285,7 +284,7 @@ import { jsPDF } from "../jspdf.js";
 	char codes to StandardEncoding character codes. The encoding table is to be used
 	somewhere around "pdfEscape" call.
 	*/
-  API.events.push([
+  jsPDFAPI.events.push([
     "addFont",
     function(data) {
       var font = data.font;
@@ -304,4 +303,6 @@ import { jsPDF } from "../jspdf.js";
       }
     }
   ]); // end of adding event handler
-})(jsPDF.API);
+}
+
+export { standard_fonts_metrics };

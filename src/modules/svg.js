@@ -22,7 +22,6 @@
  * ====================================================================
  */
 
-import { jsPDF } from "../jspdf.js";
 import { console } from "../libs/console.js";
 import { globalObject } from "../libs/globalObject.js";
 
@@ -32,7 +31,7 @@ import { globalObject } from "../libs/globalObject.js";
  * @name svg
  * @module
  */
-(function(jsPDFAPI) {
+function svg(jsPDFAPI) {
   "use strict";
 
   function loadCanvg() {
@@ -153,4 +152,6 @@ import { globalObject } from "../libs/globalObject.js";
         );
       });
   };
-})(jsPDF.API);
+}
+
+export { svg };

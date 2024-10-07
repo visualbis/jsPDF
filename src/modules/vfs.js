@@ -14,7 +14,7 @@ import { jsPDF } from "../jspdf.js";
  * @name vFS
  * @module
  */
-(function(jsPDFAPI) {
+function vfs(jsPDFAPI) {
   "use strict";
 
   var _initializeVFS = function() {
@@ -74,4 +74,6 @@ import { jsPDF } from "../jspdf.js";
     }
     return null;
   };
-})(jsPDF.API);
+}
+
+export { vfs };

@@ -1,12 +1,9 @@
-import { jsPDF } from "../jspdf.js";
-
 /**
  * @name utf8
  * @module
  */
-(function(jsPDF) {
+function utf8(jsPDFAPI) {
   "use strict";
-  var jsPDFAPI = jsPDF.API;
 
   /***************************************************************************************************/
   /* function : pdfEscape16                                                                          */
@@ -89,7 +86,7 @@ import { jsPDF } from "../jspdf.js";
     var pdfEscapeWithNeededParanthesis = options.pdfEscapeWithNeededParanthesis;
 
     if (
-      font.metadata instanceof jsPDF.API.TTFFont &&
+      font.metadata instanceof jsPDFAPI.TTFFont &&
       font.encoding === "Identity-H"
     ) {
       //Tag with Identity-H
@@ -114,7 +111,7 @@ import { jsPDF } from "../jspdf.js";
       out("/Type /FontDescriptor");
       out("/FontName /" + pdfEscapeWithNeededParanthesis(font.fontName));
       out("/FontFile2 " + fontTable + " 0 R");
-      out("/FontBBox " + jsPDF.API.PDFObject.convert(font.metadata.bbox));
+      out("/FontBBox " + jsPDFAPI.PDFObject.convert(font.metadata.bbox));
       out("/Flags " + font.metadata.flags);
       out("/StemV " + font.metadata.stemV);
       out("/ItalicAngle " + font.metadata.italicAngle);
@@ -129,7 +126,7 @@ import { jsPDF } from "../jspdf.js";
       out("/Type /Font");
       out("/BaseFont /" + pdfEscapeWithNeededParanthesis(font.fontName));
       out("/FontDescriptor " + fontDescriptor + " 0 R");
-      out("/W " + jsPDF.API.PDFObject.convert(widths));
+      out("/W " + jsPDFAPI.PDFObject.convert(widths));
       out("/CIDToGIDMap /Identity");
       out("/DW 1000");
       out("/Subtype /CIDFontType2");
@@ -172,7 +169,7 @@ import { jsPDF } from "../jspdf.js";
     var pdfEscapeWithNeededParanthesis = options.pdfEscapeWithNeededParanthesis;
 
     if (
-      font.metadata instanceof jsPDF.API.TTFFont &&
+      font.metadata instanceof jsPDFAPI.TTFFont &&
       font.encoding === "WinAnsiEncoding"
     ) {
       //Tag with WinAnsi encoding
@@ -199,7 +196,7 @@ import { jsPDF } from "../jspdf.js";
       out("/Type /FontDescriptor");
       out("/FontFile2 " + fontTable + " 0 R");
       out("/Flags 96");
-      out("/FontBBox " + jsPDF.API.PDFObject.convert(font.metadata.bbox));
+      out("/FontBBox " + jsPDFAPI.PDFObject.convert(font.metadata.bbox));
       out("/FontName /" + pdfEscapeWithNeededParanthesis(font.fontName));
       out("/ItalicAngle " + font.metadata.italicAngle);
       out("/Ascent " + font.metadata.ascender);
@@ -222,7 +219,7 @@ import { jsPDF } from "../jspdf.js";
           "/Encoding/" +
           font.encoding +
           " /FirstChar 29 /LastChar 255 /Widths " +
-          jsPDF.API.PDFObject.convert(font.metadata.hmtx.widths) +
+          jsPDFAPI.PDFObject.convert(font.metadata.hmtx.widths) +
           ">>"
       );
       out("endobj");
@@ -371,4 +368,6 @@ import { jsPDF } from "../jspdf.js";
   };
 
   jsPDFAPI.events.push(["postProcessText", utf8EscapeFunction]);
-})(jsPDF);
+}
+
+export { utf8 };

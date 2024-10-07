@@ -7,7 +7,6 @@
  * Licensed under the MIT License. http://opensource.org/licenses/mit-license
  */
 
-import { jsPDF } from "../jspdf.js";
 import { RGBColor } from "../libs/rgbcolor.js";
 import { console } from "../libs/console.js";
 import {
@@ -24,7 +23,7 @@ import {
  * @name context2d
  * @module
  */
-(function(jsPDFAPI) {
+function context2d(jsPDFAPI) {
   "use strict";
   var ContextLayer = function(ctx) {
     ctx = ctx || {};
@@ -2383,4 +2382,6 @@ import {
       Math.round(maxy - miny)
     );
   };
-})(jsPDF.API);
+}
+
+export {context2d}

@@ -8,6 +8,7 @@ import { RGBColor } from "./libs/rgbcolor.js";
 import { btoa } from "./libs/AtobBtoa.js";
 import { console } from "./libs/console.js";
 import { PDFSecurity } from "./libs/pdfsecurity.js";
+import { __init } from "./setup.js";
 
 /**
  * jsPDF's Internal PubSub Implementation.
@@ -207,6 +208,8 @@ function TilingPattern(boundingBox, xStep, yStep, gState, matrix) {
  * @constructor
  */
 function jsPDF(options) {
+  __init(jsPDF.API)
+
   var orientation = typeof arguments[0] === "string" ? arguments[0] : "p";
   var unit = arguments[1];
   var format = arguments[2];
@@ -4943,6 +4946,7 @@ function jsPDF(options) {
     out(hpf(scale(width)) + " w");
     return this;
   });
+  console.log('sdf')
 
   /**
    * Sets the dash pattern for upcoming lines.

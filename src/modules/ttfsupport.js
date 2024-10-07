@@ -4,14 +4,13 @@
  * http://opensource.org/licenses/mit-license
  */
 
-import { jsPDF } from "../jspdf.js";
 import { atob } from "../libs/AtobBtoa.js";
 
 /**
  * @name ttfsupport
  * @module
  */
-(function(jsPDF) {
+function ttfsupport(jsPDFAPI) {
   "use strict";
 
   var binaryStringToUint8Array = function(binary_string) {
@@ -30,7 +29,7 @@ import { atob } from "../libs/AtobBtoa.js";
     } else {
       file = binaryStringToUint8Array(atob(file));
     }
-    font.metadata = jsPDF.API.TTFFont.open(file);
+    font.metadata = jsPDFAPI.TTFFont.open(file);
     font.metadata.Unicode = font.metadata.Unicode || {
       encoding: {},
       kerning: {},
@@ -39,7 +38,7 @@ import { atob } from "../libs/AtobBtoa.js";
     font.metadata.glyIdsUsed = [0];
   };
 
-  jsPDF.API.events.push([
+  jsPDFAPI.events.push([
     "addFont",
     function(data) {
       var file = undefined;
@@ -71,4 +70,6 @@ import { atob } from "../libs/AtobBtoa.js";
       }
     }
   ]); // end of adding event handler
-})(jsPDF);
+}
+
+export { ttfsupport };

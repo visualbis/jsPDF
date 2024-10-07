@@ -35,7 +35,7 @@ import { jsPDF } from "../jspdf.js";
  * @name cell
  * @module
  */
-(function(jsPDFAPI) {
+function cell(jsPDFAPI) {
   "use strict";
 
   var NO_MARGINS = { left: 0, top: 0, bottom: 0, right: 0 };
@@ -442,7 +442,10 @@ import { jsPDF } from "../jspdf.js";
       });
     }
 
-    if (autoSize || (Array.isArray(headers) && typeof headers[0] === "string")) {
+    if (
+      autoSize ||
+      (Array.isArray(headers) && typeof headers[0] === "string")
+    ) {
       var headerName;
       for (i = 0; i < headerNames.length; i += 1) {
         headerName = headerNames[i];
@@ -643,4 +646,6 @@ import { jsPDF } from "../jspdf.js";
     this.setFont(undefined, "normal");
     printingHeaderRow = false;
   };
-})(jsPDF.API);
+}
+
+export { cell };

@@ -31,7 +31,7 @@ import { jsPDF } from "../jspdf.js";
  * @name total_pages
  * @module
  */
-(function(jsPDFAPI) {
+function total_pages(jsPDFAPI) {
   "use strict";
   /**
    * @name putTotalPages
@@ -70,4 +70,6 @@ import { jsPDF } from "../jspdf.js";
 
     return this;
   };
-})(jsPDF.API);
+}
+
+export { total_pages };
