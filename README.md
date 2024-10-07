@@ -18,6 +18,7 @@ jsPDF is now co-maintained by [yWorks - the diagramming experts](https://www.ywo
 
 ## Install
 
+
 Recommended: get jsPDF from npm:
 
 ```sh
