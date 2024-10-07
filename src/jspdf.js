@@ -4946,7 +4946,6 @@ function jsPDF(options) {
     out(hpf(scale(width)) + " w");
     return this;
   });
-  console.log('sdf')
 
   /**
    * Sets the dash pattern for upcoming lines.
